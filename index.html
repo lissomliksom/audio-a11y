@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lydbokspiller</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <main class="bg-gray-50">
+  
+    <section aria-label="Lydspiller">
+      <div class="flex flex-col items-center justify-center min-h-screen px-4 pt-6 pb-24 space-y-4">
+  
+        <!-- Audio player: Details and controllers -->
+        <article id="audio-player-container" class="flex flex-col w-full max-w-lg bg-white border rounded-md shadow-md">
+          <div class="flex items-center p-4 md:px-10 md:pt-10">
+  
+            <img id="audio-cover" alt="Audio cover image" class="object-cover w-24 h-24 mr-6 border rounded-md " />
+  
+            <div class="flex flex-col">
+              <h2 id="audio-title" aria-label="Tittel"
+                class="font-sans text-lg font-medium leading-7 text-gray-900">Tittel</h2>
+              <h3 id="audio-artist" aria-label="Artist eller forfatter"
+                class="font-sans text-base font-medium leading-6 text-gray-600">Artist</h3>
+              <h4 id="audio-album" aria-label="Album eller boktittel"
+                class="font-sans text-sm leading-6 text-gray-600">Album</h4>
+            </div>
+          </div>
+  
+          <!-- Audio. Content is loaded dynamically -->
+          <audio id="audio" src=""></audio>
+  
+          <!-- Audio slider -->
+          <div class="flex flex-col w-full p-4 md:px-10 md:pb-6">
+
+            <label for="audio-percentage-played" class="sr-only">Progresjon</label>
+            <input id="audio-percentage-played" type="range" name="audio-percentage-played" min="0" max="100" value="0"
+              aria-label="Progresjon" aria-valuetext="%" aria-valuemin="0" aria-valuemax="100"
+              class="w-full h-2 bg-blue-100 rounded-full appearance-none cursor-pointer" />
+  
+            <div class="flex justify-between w-full mt-1">
+              <span id="audio-time-current"
+                class="font-sans text-xs font-medium tracking-wide text-gray-600">&nbsp;</span>
+              <span id="audio-time-total" class="font-sans text-xs font-medium tracking-wide text-gray-600">&nbsp;</span>
+            </div>
+
+          </div>
+
+          <!-- Audio controls: Previous, skip backward, play/pause, skip forward, next -->
+          <div class="flex items-center justify-between px-4 md:px-8 py-2 border-t rounded-b-md">
+            <button id="audio-controller-previous" type="button" aria-label="Forrige lydklipp"
+              class="transition duration-200 ease-in-out hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button id="audio-controller-skip-backward" type="button" aria-label="Hopp 30 sekunder bakover"
+              class="transition duration-200 ease-in-out hover:text-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_5_8)">
+                  <path d="M3.00403 4V10H9.00403" stroke="black" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M14.5256 20.9866C16.4736 20.8726 18.3319 20.1286 19.8203 18.8667C21.3087 17.6047 22.3466 15.8932 22.7777 13.9901C23.2087 12.0869 23.0095 10.0952 22.2102 8.31508C21.4108 6.53496 20.0545 5.06288 18.3457 4.12065C16.6369 3.17843 14.6681 2.81711 12.7361 3.09116C10.804 3.3652 9.01341 4.25975 7.63402 5.64001L3.00402 10"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M3.04 20.72C3.09333 20.72 3.15 20.73 3.21 20.75C3.27 20.7633 3.33667 20.7967 3.41 20.85C3.53 20.9567 3.67333 21.0467 3.84 21.12C4.01333 21.1867 4.21 21.22 4.43 21.22C4.67667 21.22 4.90667 21.1633 5.12 21.05C5.33333 20.93 5.50667 20.7633 5.64 20.55C5.77333 20.3367 5.84 20.0833 5.84 19.79C5.84 19.49 5.77667 19.2467 5.65 19.06C5.52333 18.8667 5.36 18.7233 5.16 18.63C4.96 18.53 4.75 18.48 4.53 18.48C4.40333 18.48 4.29667 18.4933 4.21 18.52C4.12333 18.54 4.04 18.5633 3.96 18.59C3.88 18.61 3.79333 18.62 3.7 18.62C3.57333 18.62 3.47333 18.5767 3.4 18.49C3.32667 18.3967 3.29 18.2867 3.29 18.16C3.29 18.08 3.30667 18.01 3.34 17.95C3.37333 17.89 3.42 17.8233 3.48 17.75L5.33 15.77L5.55 15.97H2.9C2.76667 15.97 2.65333 15.9267 2.56 15.84C2.47333 15.7467 2.43 15.6333 2.43 15.5C2.43 15.3733 2.47333 15.2667 2.56 15.18C2.65333 15.0933 2.76667 15.05 2.9 15.05H6.06C6.23333 15.05 6.36 15.1 6.44 15.2C6.52667 15.3 6.57 15.4167 6.57 15.55C6.57 15.6233 6.55 15.6933 6.51 15.76C6.47667 15.8267 6.43333 15.89 6.38 15.95L4.52 17.95L4.27 17.68C4.32333 17.6533 4.41333 17.6267 4.54 17.6C4.66667 17.5733 4.77 17.56 4.85 17.56C5.23 17.56 5.57 17.6567 5.87 17.85C6.17667 18.0433 6.41333 18.3033 6.58 18.63C6.75333 18.95 6.84 19.3133 6.84 19.72C6.84 20.2067 6.73 20.63 6.51 20.99C6.29 21.3433 5.98333 21.6167 5.59 21.81C5.20333 22.0033 4.75667 22.1 4.25 22.1C3.99667 22.1 3.74333 22.0667 3.49 22C3.24333 21.9267 3.03 21.8233 2.85 21.69C2.73667 21.6233 2.66 21.5533 2.62 21.48C2.58 21.4 2.56 21.3233 2.56 21.25C2.56 21.1233 2.60333 21.0033 2.69 20.89C2.78333 20.7767 2.9 20.72 3.04 20.72ZM10.372 22.1C9.81203 22.1 9.3387 21.9467 8.95203 21.64C8.56536 21.3267 8.27203 20.9 8.07203 20.36C7.8787 19.8133 7.78203 19.1933 7.78203 18.5C7.78203 17.8 7.8787 17.18 8.07203 16.64C8.27203 16.0933 8.56536 15.6667 8.95203 15.36C9.3387 15.0533 9.81203 14.9 10.372 14.9C10.932 14.9 11.402 15.0533 11.782 15.36C12.1687 15.6667 12.462 16.0933 12.662 16.64C12.862 17.18 12.962 17.8 12.962 18.5C12.962 19.1933 12.862 19.8133 12.662 20.36C12.462 20.9 12.1687 21.3267 11.782 21.64C11.402 21.9467 10.932 22.1 10.372 22.1ZM10.372 21.09C10.6854 21.09 10.952 20.99 11.172 20.79C11.3987 20.59 11.572 20.2967 11.692 19.91C11.8187 19.5233 11.882 19.0533 11.882 18.5C11.882 17.94 11.8187 17.4667 11.692 17.08C11.572 16.6933 11.3987 16.4 11.172 16.2C10.952 16 10.6854 15.9 10.372 15.9C10.0587 15.9 9.7887 16 9.56203 16.2C9.33536 16.4 9.16203 16.6933 9.04203 17.08C8.92203 17.4667 8.86203 17.94 8.86203 18.5C8.86203 19.0533 8.92203 19.5233 9.04203 19.91C9.16203 20.2967 9.33536 20.59 9.56203 20.79C9.7887 20.99 10.0587 21.09 10.372 21.09Z"
+                    fill="black" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_5_8">
+                    <rect width="24" height="24" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+            <button id="audio-controller-play" type="button" aria-label="Spill av lydklipp"
+              class="flex items-center justify-center w-16 h-16 text-white transition duration-200 ease-in-out bg-gray-900 border rounded-full hover:bg-gray-800 focus:outline-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-0.5" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button id="audio-controller-skip-forward" type="button" aria-label="Hopp 30 sekunder fremover"
+              class="transition duration-200 ease-in-out hover:text-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_5_2)">
+                  <path d="M23 4V10H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M11.4784 20.9866C9.53038 20.8726 7.67216 20.1286 6.18376 18.8667C4.69536 17.6047 3.65743 15.8932 3.22637 13.9901C2.79531 12.0869 2.99448 10.0952 3.79386 8.31508C4.59325 6.53496 5.94954 5.06288 7.65836 4.12065C9.36717 3.17843 11.3359 2.81711 13.268 3.09116C15.2 3.3652 16.9906 4.25975 18.37 5.64001L23 10"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M14.04 20.72C14.0933 20.72 14.15 20.73 14.21 20.75C14.27 20.7633 14.3367 20.7967 14.41 20.85C14.53 20.9567 14.6733 21.0467 14.84 21.12C15.0133 21.1867 15.21 21.22 15.43 21.22C15.6767 21.22 15.9067 21.1633 16.12 21.05C16.3333 20.93 16.5067 20.7633 16.64 20.55C16.7733 20.3367 16.84 20.0833 16.84 19.79C16.84 19.49 16.7767 19.2467 16.65 19.06C16.5233 18.8667 16.36 18.7233 16.16 18.63C15.96 18.53 15.75 18.48 15.53 18.48C15.4033 18.48 15.2967 18.4933 15.21 18.52C15.1233 18.54 15.04 18.5633 14.96 18.59C14.88 18.61 14.7933 18.62 14.7 18.62C14.5733 18.62 14.4733 18.5767 14.4 18.49C14.3267 18.3967 14.29 18.2867 14.29 18.16C14.29 18.08 14.3067 18.01 14.34 17.95C14.3733 17.89 14.42 17.8233 14.48 17.75L16.33 15.77L16.55 15.97H13.9C13.7667 15.97 13.6533 15.9267 13.56 15.84C13.4733 15.7467 13.43 15.6333 13.43 15.5C13.43 15.3733 13.4733 15.2667 13.56 15.18C13.6533 15.0933 13.7667 15.05 13.9 15.05H17.06C17.2333 15.05 17.36 15.1 17.44 15.2C17.5267 15.3 17.57 15.4167 17.57 15.55C17.57 15.6233 17.55 15.6933 17.51 15.76C17.4767 15.8267 17.4333 15.89 17.38 15.95L15.52 17.95L15.27 17.68C15.3233 17.6533 15.4133 17.6267 15.54 17.6C15.6667 17.5733 15.77 17.56 15.85 17.56C16.23 17.56 16.57 17.6567 16.87 17.85C17.1767 18.0433 17.4133 18.3033 17.58 18.63C17.7533 18.95 17.84 19.3133 17.84 19.72C17.84 20.2067 17.73 20.63 17.51 20.99C17.29 21.3433 16.9833 21.6167 16.59 21.81C16.2033 22.0033 15.7567 22.1 15.25 22.1C14.9967 22.1 14.7433 22.0667 14.49 22C14.2433 21.9267 14.03 21.8233 13.85 21.69C13.7367 21.6233 13.66 21.5533 13.62 21.48C13.58 21.4 13.56 21.3233 13.56 21.25C13.56 21.1233 13.6033 21.0033 13.69 20.89C13.7833 20.7767 13.9 20.72 14.04 20.72ZM21.372 22.1C20.812 22.1 20.3387 21.9467 19.952 21.64C19.5654 21.3267 19.272 20.9 19.072 20.36C18.8787 19.8133 18.782 19.1933 18.782 18.5C18.782 17.8 18.8787 17.18 19.072 16.64C19.272 16.0933 19.5654 15.6667 19.952 15.36C20.3387 15.0533 20.812 14.9 21.372 14.9C21.932 14.9 22.402 15.0533 22.782 15.36C23.1687 15.6667 23.462 16.0933 23.662 16.64C23.862 17.18 23.962 17.8 23.962 18.5C23.962 19.1933 23.862 19.8133 23.662 20.36C23.462 20.9 23.1687 21.3267 22.782 21.64C22.402 21.9467 21.932 22.1 21.372 22.1ZM21.372 21.09C21.6854 21.09 21.952 20.99 22.172 20.79C22.3987 20.59 22.572 20.2967 22.692 19.91C22.8187 19.5233 22.882 19.0533 22.882 18.5C22.882 17.94 22.8187 17.4667 22.692 17.08C22.572 16.6933 22.3987 16.4 22.172 16.2C21.952 16 21.6854 15.9 21.372 15.9C21.0587 15.9 20.7887 16 20.562 16.2C20.3354 16.4 20.162 16.6933 20.042 17.08C19.922 17.4667 19.862 17.94 19.862 18.5C19.862 19.0533 19.922 19.5233 20.042 19.91C20.162 20.2967 20.3354 20.59 20.562 20.79C20.7887 20.99 21.0587 21.09 21.372 21.09Z"
+                    fill="black" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_5_2">
+                    <rect width="24" height="24" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+            <button id="audio-controller-next" type="button" aria-label="Neste lydklipp"
+              class="transition duration-200 ease-in-out hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" type="button" class="w-6 h-6" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+  
+          </div>
+  
+        </article>
+  
+        <!-- Audio player: Track list -->
+          <article class="flex flex-col w-full max-w-lg py-2 bg-white border rounded-md shadow-md">
+            <ul id="audio-track-list" role="list" class="divide-y">  
+            </ul>
+          </article>   
+  
+      </div>
+    </section>
+  
+  </main>
+  
+  <script src="main.js"></script>
+</body>
+</html>
